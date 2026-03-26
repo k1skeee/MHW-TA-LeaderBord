@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>MHW:I TA Leaderboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        /* 言語ボタン全体の配置調整 */
+        .lang-btns {
+            text-align: right;
+            padding-top: 20px;    /* これでカードの内側でボタンが下がります */
+            padding-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        /* ボタンの基本デザイン */
+        .lang-btns button {
+            cursor: pointer;
+            padding: 5px 12px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 4px;   /* 角を少し丸く */
+            transition: all 0.2s; /* 色の変化を滑らかに */
+            margin-left: 5px;
+        }
+
+        /* 選択されている（active）ボタンを青くする */
+        .lang-btns button.active {
+            background-color: #007bff;
+            color: white;
+            border-color: #0056b3;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="lang-btns">
+            <button onclick="changeLanguage('ja')" id="btn-ja">JP</button>
+            <button onclick="changeLanguage('en')" id="btn-en">EN</button>
+            <button onclick="changeLanguage('zh')" id="btn-zh">CH</button>
+        </div>
+
+        <h1>🏆 MHW:I TA Leaderboard</h1>
+
+        <div class="tabs">
+            <a href="{{ url_for('index', tab='quest', monster=selected_quest.id) }}" id="nav-quest" class="tab-btn {% if active_tab == 'quest' %}active{% endif %}">⚔️ クエスト一覧</a>
+            <a href="{{ url_for('index', tab='rule') }}" id="nav-about" class="tab-btn {% if active_tab == 'rule' %}active{% endif %}">📖 概要・ルール</a>
+            <a href="{{ url_for('index', tab='form') }}" id="nav-form" class="tab-btn {% if active_tab == 'form' %}active{% endif %}">📝 応募フォーム</a>
+        </div>
+
+        {% if active_tab == 'quest' %}
+        <div class="tab-content active">
+            <div class="quest-grid">
+                {% for q in quests %}
+                <a href="{{ url_for('index', tab='quest', monster=q.id) }}" class="quest-card {% if q.id == selected_quest.id %}selected{% endif %}">
+                    <img src="{{ url_for('static', filename=q.icon) }}" class="monster-icon">
+                    <div class="quest-info">
+                        <div class="quest-name" id="q-name-{{q.id}}">{{ q.name }}</div>
+                        <div class="quest-target" id="q-m-name-{{q.id}}">{{ q.display_name }}</div>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+
+            <hr class="section-divider">
+
+            <div class="ranking-area">
+                <div class="ranking-header-card">
+                    <img src="{{ url_for('static', filename=selected_quest.icon) }}" class="ranking-monster-icon">
+                    <div class="quest-text-info">
+                        <div class="ranking-monster-name" id="current-monster-name">{{ selected_quest.display_name }}</div>
+                        <div class="ranking-quest-name" id="current-quest-name">{{ selected_quest.name }}</div>
+                    </div>
+                </div>
+
+                <div class="sorting-controls">
+                    <select class="blue-dropdown" onchange="location.href=updateURL('weapon', this.value)">
+                        <option value="All" class="opt-weapon" data-key="All" {% if sel_weapon == 'All' %}selected{% endif %}>Weapon ▾</option>
+                        <option value="GS" class="opt-weapon" data-key="GS" {% if sel_weapon == 'GS' %}selected{% endif %}>Great Sword</option>
+                        <option value="LS" class="opt-weapon" data-key="LS" {% if sel_weapon == 'LS' %}selected{% endif %}>Long Sword</option>
+                        <option value="DB" class="opt-weapon" data-key="DB" {% if sel_weapon == 'DB' %}selected{% endif %}>Dual Blades</option>
+                        <option value="SnS" class="opt-weapon" data-key="SnS" {% if sel_weapon == 'SnS' %}selected{% endif %}>Sword & Shield</option>
+                        <option value="GL" class="opt-weapon" data-key="GL" {% if sel_weapon == 'GL' %}selected{% endif %}>Gunlance</option>
+                        <option value="LC" class="opt-weapon" data-key="LC" {% if sel_weapon == 'LC' %}selected{% endif %}>Lance</option>
+                        <option value="CB" class="opt-weapon" data-key="CB" {% if sel_weapon == 'CB' %}selected{% endif %}>Charge Blade</option>
+                        <option value="SA" class="opt-weapon" data-key="SA" {% if sel_weapon == 'SA' %}selected{% endif %}>Switch Axe</option>
+                        <option value="IG" class="opt-weapon" data-key="IG" {% if sel_weapon == 'IG' %}selected{% endif %}>Insect Glaive</option>
+                        <option value="HM" class="opt-weapon" data-key="HM" {% if sel_weapon == 'HM' %}selected{% endif %}>Hammer</option>
+                        <option value="HH" class="opt-weapon" data-key="HH" {% if sel_weapon == 'HH' %}selected{% endif %}>Hunting Horn</option>
+                        <option value="LBG" class="opt-weapon" data-key="LBG" {% if sel_weapon == 'LBG' %}selected{% endif %}>Light Bowgun</option>
+                        <option value="HBG" class="opt-weapon" data-key="HBG" {% if sel_weapon == 'HBG' %}selected{% endif %}>Heavy Bowgun</option>
+                        <option value="BOW" class="opt-weapon" data-key="BOW" {% if sel_weapon == 'BOW' %}selected{% endif %}>Bow</option>
+                    </select>
+
+                    <select class="blue-dropdown" onchange="location.href=updateURL('platform', this.value)">
+                        <option value="All" class="opt-platform" data-key="All" {% if sel_platform == 'All' %}selected{% endif %}>Platform</option>
+                        <option value="PC" class="opt-platform" data-key="PC" {% if sel_platform == 'PC' %}selected{% endif %}>PC</option>
+                        <option value="CS" class="opt-platform" data-key="CS" {% if sel_platform == 'CS' %}selected{% endif %}>CS</option>
+                    </select>
+
+                    <select class="blue-dropdown" onchange="location.href=updateURL('style', this.value)">
+                        <option value="All" class="opt-style" data-key="All" {% if sel_style == 'All' %}selected{% endif %}>Style ▾</option>
+                        <option value="Heroics" class="opt-style" data-key="Heroics" {% if sel_style == 'Heroics' %}selected{% endif %}>Heroics</option>
+                        <option value="No Heroics" class="opt-style" data-key="No Heroics" {% if sel_style == 'No Heroics' %}selected{% endif %}>No Heroics</option>
+                        <option value="TA wiki" class="opt-style" data-key="TA wiki" {% if sel_style == 'TA wiki' %}selected{% endif %}>TA wiki</option>
+                    </select>
+                </div>
+
+                <table class="ta-table" style="table-layout: fixed; width: 100%;">
+                    <thead>
+                        <tr>
+                            <th style="width: 25%;">Runner</th>
+                            <th style="width: 15%;">Time</th>
+                            <th style="width: 12%;">Weapon</th>
+                            <th style="width: 15%;">Style</th>
+                            <th style="width: 12%;">Platform</th>
+                            <th style="width: 13%;">Date</th>
+                            <th style="width: 8%;">URL</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for record in records %}
+                        <tr>
+                            <td>{{ record.runner }}</td>
+                            <td class="time-cell">{{ record.time }}</td>
+                            <td>
+                                <img src="{{ url_for('static', filename=record.weapon|string|replace('.png', '') + '.png') }}" 
+                                     class="table-weapon-icon" 
+                                     title="{{ record.weapon }}">
+                            </td>
+                            <td>{{ record.style }}</td>
+                            <td>{{ record.platform }}</td>
+                            <td>{{ record.date }}</td>
+                            <td>
+                                {% if record.url == "novideo" or not record.url %}
+                                    <span style="color: gray; font-size: 0.9em;">No Video</span>
+                                {% else %}
+                                    <a href="{{ record.url }}" target="_blank">View</a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if active_tab == 'rule' %}
+        <div class="tab-content active">
+            <div class="info-box" style="line-height: 1.8; padding: 20px;">
+                <h2 id="about-title" style="border-left: 5px solid #d9534f; padding-left: 15px; margin-bottom: 15px; font-weight: bold; font-size: 1.3em;">目的</h2>
+                <p id="about-text">
+                    本サイトは、MHW:IBで人気の5種クエストを対象としたタイム集計・アーカイブサイトです。<br>
+                    走者の方々が、参考にしたい記録や関連する動画をスムーズに見つけられることを目的としています。
+                </p>
+                <div style="height: 30px;"></div>
+                <h2 id="how-title" style="border-left: 5px solid #d9534f; padding-left: 15px; margin-bottom: 15px; font-weight: bold; font-size: 1.3em;">使い方</h2>
+                <p id="how-text">
+                    1. クエストを選択し、武器種・プラットフォーム・レギュレーションで絞り込みが可能です。<br><br>
+                    2. 各カテゴリー上位の記録を掲載しています（走者がいない場合は0件となります）。
+                </p>
+                <div style="background: #fdf2f2; padding: 15px; border-radius: 6px; border: 1px solid #f5c6cb; color: #721c24; font-size: 0.9em; margin-top: 10px;">
+                    <strong id="no-video-title">※No Videoについて</strong><br>
+                    <span id="no-video-text">投稿者本人の動画が確認できない記録です。転載サイト等で視聴可能ですが、本サイトでは原則として、本人アカウントから視聴可能な動画のみを掲載・更新対象としています。</span>
+                </div>
+                <div style="height: 30px;"></div>
+                <h2 id="apply-title" style="border-left: 5px solid #d9534f; padding-left: 15px; margin-bottom: 15px; font-weight: bold; font-size: 1.3em;">記録の集計・申請</h2>
+                <p id="apply-text">
+                    新記録や掲載漏れがある場合は、専用の応募フォームからご連絡ください。<br>
+                    管理人が内容を確認後、掲載させていただきます。
+                </p>
+                <div style="height: 30px;"></div>
+                <h2 id="target-title" style="border-left: 5px solid #d9534f; padding-left: 15px; margin-bottom: 15px; font-weight: bold; font-size: 1.3em;">対象クエスト</h2>
+                <ul id="target-list" style="list-style: none; padding-left: 5px; line-height: 2;">
+                    <li> M⭐︎6 伝説の黒龍</li>
+                    <li> M⭐︎6 六花が静かに眠るなら</li>
+                    <li> M⭐︎6 君はゴールデントロフィー</li>
+                    <li> M⭐︎6 宵の恒星</li>
+                    <li> M⭐︎6 明けの死星</li>
+                </ul>
+                <div style="height: 30px;"></div>
+                <h2 id="contact-title" style="border-left: 5px solid #d9534f; padding-left: 15px; margin-bottom: 15px; font-weight: bold; font-size: 1.3em;">お問い合わせ</h2>
+                <p id="contact-text">
+                    誤情報の指摘やご要望は、DMまたはメールにて受け付けております。<br>
+                    <a href="https://x.com/MHW_Record" target="_blank" style="display: inline-flex; align-items: center; text-decoration: none; color: #007bff; margin-top: 5px;">
+                        <img src="{{ url_for('static', filename='X.png') }}" style="width: 18px; height: 18px; margin-right: 5px; vertical-align: middle;">
+                        @MHW_Record
+                    </a>
+                </p>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if active_tab == 'form' %}
+        <div class="tab-content active">
+            <div class="info-box form-box">
+                <h2 id="form-title">📝 応募フォーム</h2>
+                <p id="form-text">記録の申請は以下のボタンからGoogleフォームを開いて行ってください。</p>
+                <a href="https://forms.gle/mwFj4i3tmsuwBQew5" target="_blank" class="blue-submit-btn" id="form-btn">Google Formを開く</a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <script>
+    function updateURL(key, value) {
+        let url = new URL(window.location.href);
+        url.searchParams.set(key, value);
+        return url.href;
+    }
+
+    const xLinkHtml = '<a href="https://x.com/MHW_Record" target="_blank" style="display: inline-flex; align-items: center; text-decoration: none; color: #007bff; margin-top: 5px;">' +
+                      '<img src="/static/X.png" style="width: 30px; height: 30px; margin-right: 7px; vertical-align: middle;">' + 
+                      '@MHW_Record</a>';
+
+    const translations = {
+        ja: {
+            navQuest: "⚔️ クエスト一覧", navAbout: "📖 概要・ルール", navForm: "📝 応募フォーム",
+            aboutTitle: "目的", aboutText: "本サイトは、MHW:IBで人気の5種クエストを対象としたタイム集計・アーカイブサイトです。<br>走者の方々が、参考にしたい記録や関連する動画をスムーズに見つけられることを目的としています。",
+            howTitle: "使い方", howText: "1. クエストを選択し、武器種・プラットフォーム・レギュレーションで絞り込みが可能です。<br><br>2. 各カテゴリー上位の記録を掲載しています（走者がいない場合は0件となります）。",
+            noVideoTitle: "※No Videoについて", noVideoText: "投稿者本人の動画が確認できない記録です。転載サイト等で視聴可能ですが、本サイトでは原則として、本人アカウントから視聴可能な動画のみを掲載・更新対象としています。",
+            applyTitle: "記録の集計・申請", applyText: "新記録や掲載漏れがある場合は、専用の応募フォームからご連絡ください。<br>管理人が内容を確認後、掲載させていただきます。",
+            targetTitle: "対象クエスト", targets: [" M⭐︎6 伝説の黒龍", " M⭐︎6 六花が静かに眠るなら", " M⭐︎6 君はゴールデントロフィー", " M⭐︎6 宵の恒星", " M⭐︎6 明けの死星"],
+            contactTitle: "お問い合わせ", 
+            contactText: '誤情報の指摘やご要望は、DMまたはメールにて受け付けております。<br>' + xLinkHtml,
+            formTitle: "📝 応募フォーム",
+            formText: "記録の申請は以下のボタンからGoogleフォームを開いて行ってください。",
+            formBtn: "Google Formを開く",
+            questNames: {
+                "alatreon_fire": { name: "M⭐︎6 宵の恒星", target: "アルバトリオン" },
+                "alatreon_ice": { name: "M⭐︎6 明けの死星", target: "アルバトリオン" },
+                "milla": { name: "M⭐︎6 伝説の黒龍", target: "ミラボレアス" },
+                "velkhana": { name: "M⭐︎6 六花が静かに眠るなら", target: "歴戦王イヴェルカーナ" },
+                "rajang": { name: "M⭐︎6 君はゴールデントロフィー", target: "歴戦 激昂したラージャン" }
+            },
+            sortOptions: {
+                weapon: { All: "武器", GS: "大剣", LS: "太刀", DB: "双剣", SnS: "片手剣", GL: "ガンランス", LC: "ランス", CB: "チャージアックス", SA: "スラッシュアックス", IG: "操虫棍", HM: "ハンマー", HH: "狩猟笛", LBG: "ライトボウガン", HBG: "ヘビィボウガン", BOW: "弓" },
+                platform: { All: "プラットフォーム", PC: "PC", CS: "CS" },
+                style: { All: "スタイル", Heroics: "火事場", "No Heroics": "非火事場", "TA wiki": "TA wiki" }
+            }
+        },
+        en: {
+            navQuest: "⚔️ Quests", navAbout: "📖 About / Rules", navForm: "📝 Submissions",
+            aboutTitle: "Mission", aboutText: "This site is a dedicated speedrun archive for 5 popular MHW:IB quests. Our primary goal is to provide a platform where runners can \"smoothly find and study\" top-tier records and gameplay strategies.",
+            howTitle: "How to Use", howText: "1. Select a quest and filter by Weapon, Platform, or Category.<br><br>2. We list the top records for each category. (Displays 0 if no runs are registered.)",
+            noVideoTitle: "Note on \"No Video\"", noVideoText: "These are records where the original video from the runner is unavailable. While some may be viewable on re-upload sites, this project officially lists and updates only videos hosted on the creator's own account.",
+            applyTitle: "Submissions", applyText: "If you have a new record or notice a missing run, please contact us via the Submission Form. The administrator will review the content before posting.",
+            targetTitle: "Featured Quests", targets: [" M⭐︎6 Fade to Black", " M⭐︎6 The Place Where Winter Sleeps", " M⭐︎6 Mew are Number One!", " M⭐︎6 The Evening Star", " M⭐︎6 Dawn of the Death Star"],
+            contactTitle: "Contact", 
+            contactText: "For reporting errors or suggestions, please reach out via DM or email.<br>" + xLinkHtml,
+            formTitle: "📝 Submission Form",
+            formText: "Please click the button below to open the Google Form and submit your record.",
+            formBtn: "Open Google Form",
+            questNames: {
+                "alatreon_fire": { name: "M⭐︎6 The Evening Star", target: "Alatreon" },
+                "alatreon_ice": { name: "M⭐︎6 Dawn of the Death Star", target: "Alatreon" },
+                "milla": { name: "M⭐︎6 Fade to Black", target: "Fatalis" },
+                "velkhana": { name: "M⭐︎6 The Place Where Winter Sleeps", target: "AT Velkhana" },
+                "rajang": { name: "M⭐︎6 Mew are Number One!", target: "Tempered Furious Rajang" }
+            },
+            sortOptions: {
+                weapon: { All: "Weapon", GS: "Great Sword", LS: "Long Sword", DB: "Dual Blades", SnS: "Sword & Shield", GL: "Gunlance", LC: "Lance", CB: "Charge Blade", SA: "Switch Axe", IG: "Insect Glaive", HM: "Hammer", HH: "Hunting Horn", LBG: "Light Bowgun", HBG: "Heavy Bowgun", BOW: "Bow" },
+                platform: { All: "Platform", PC: "PC", CS: "CS" },
+                style: { All: "Style", Heroics: "Heroics", "No Heroics": "No Heroics", "TA wiki": "TA wiki" }
+            }
+        },
+        zh: {
+            navQuest: "⚔️ 任務列表", navAbout: "📖 概要・規則", navForm: "📝 投稿表單",
+            aboutTitle: "目的", aboutText: "本站為 MHW:IB 五種熱門任務的紀錄存檔站。旨在幫助玩家「快速查找並參考」優秀的狩獵影片與策略，共同提升狩獵技巧。",
+            howTitle: "使用方法", howText: "1. 選擇任務後，可按武器、平台或規則進行篩選。<br><br>2. 刊載各類別的前幾名紀錄（若該類別無人挑戰則顯示為0）。",
+            noVideoTitle: "關於 \"No Video\"", noVideoText: "若原作者影片已刪除或無法確認，將標註為 No Video。雖然部分影片可能存在於轉載網站，但本站原則上僅刊載並更新由作者本人帳號公開的影片。",
+            applyTitle: "紀錄申請", applyText: "若有新紀錄 or 遺漏的紀錄，請透過專用的投稿表單與我們聯繫。管理員確認內容無誤後將予以刊載。",
+            targetTitle: "對象任務", targets: [" M⭐︎6 传说中的黑龙", " M⭐︎6 雪花沉睡", " M⭐︎6 你は黄金奖杯", " M⭐︎6 暗夜恒星", " M⭐︎6 黎明死星"],
+            contactTitle: "聯絡我們", 
+            contactText: "若有誤報或任何建議，請透過 DM 或電子郵件與我們聯繫。<br>" + xLinkHtml,
+            formTitle: "📝 投稿表單",
+            formText: "請點擊下方按鈕打開 Google 表單進行紀錄投稿。",
+            formBtn: "打開 Google 表單",
+            questNames: {
+                "alatreon_fire": { name: "M⭐︎6 暗夜恒星", target: "煌黑龙" },
+                "alatreon_ice": { name: "M⭐︎6 黎明死星", target: "煌黑龙" },
+                "milla": { name: "M⭐︎6 传说中的黑龙", target: "黑龙" },
+                "velkhana": { name: "M⭐︎6 雪花沉睡", target: "历战王冰呪龙" },
+                "rajang": { name: "M⭐︎6 你は黄金奖杯", target: "历战激昂金狮子" }
+            },
+            sortOptions: {
+                weapon: { All: "武器", GS: "大剑", LS: "太刀", DB: "双剑", SnS: "片手剑", GL: "铳枪", LC: "长枪", CB: "盾斧", SA: "斩斧", IG: "操虫棍", HM: "大锤", HH: "狩猎笛", LBG: "轻弩", HBG: "重弩", BOW: "弓" },
+                platform: { All: "平台", PC: "PC", CS: "CS" },
+                style: { All: "規則", Heroics: "火事场", "No Heroics": "无火", "TA wiki": "TA規則" }
+            }
+        }
+    };
+
+    function changeLanguage(lang) {
+        const data = translations[lang];
+        if (!data) return;
+
+        // 翻訳処理
+        document.getElementById('nav-quest').innerText = data.navQuest;
+        document.getElementById('nav-about').innerText = data.navAbout;
+        document.getElementById('nav-form').innerText = data.navForm;
+
+        if (data.questNames) {
+            for (const [id, names] of Object.entries(data.questNames)) {
+                const qNameEl = document.getElementById(`q-name-${id}`);
+                const qMNameEl = document.getElementById(`q-m-name-${id}`);
+                if (qNameEl) qNameEl.innerText = names.name;
+                if (qMNameEl) qMNameEl.innerText = names.target;
+            }
+        }
+
+        const currentQuestId = "{{ selected_quest.id }}";
+        if (data.questNames[currentQuestId]) {
+            const mNameEl = document.getElementById('current-monster-name');
+            const qNameEl = document.getElementById('current-quest-name');
+            if (mNameEl) mNameEl.innerText = data.questNames[currentQuestId].target;
+            if (qNameEl) qNameEl.innerText = data.questNames[currentQuestId].name;
+        }
+
+        if (data.sortOptions) {
+            document.querySelectorAll('.opt-weapon').forEach(opt => {
+                const key = opt.getAttribute('data-key');
+                opt.innerText = data.sortOptions.weapon[key] || key;
+            });
+            document.querySelectorAll('.opt-platform').forEach(opt => {
+                const key = opt.getAttribute('data-key');
+                opt.innerText = data.sortOptions.platform[key] || key;
+            });
+            document.querySelectorAll('.opt-style').forEach(opt => {
+                const key = opt.getAttribute('data-key');
+                opt.innerText = data.sortOptions.style[key] || key;
+            });
+        }
+
+        // About/Ruleページの更新
+        const aboutTitle = document.getElementById('about-title');
+        if (aboutTitle) {
+            aboutTitle.innerText = data.aboutTitle;
+            document.getElementById('about-text').innerHTML = data.aboutText;
+            document.getElementById('how-title').innerText = data.howTitle;
+            document.getElementById('how-text').innerHTML = data.howText;
+            document.getElementById('no-video-title').innerText = data.noVideoTitle;
+            document.getElementById('no-video-text').innerText = data.noVideoText;
+            document.getElementById('apply-title').innerText = data.applyTitle;
+            document.getElementById('apply-text').innerHTML = data.applyText;
+            document.getElementById('target-title').innerText = data.targetTitle;
+            document.getElementById('contact-title').innerText = data.contactTitle;
+            document.getElementById('contact-text').innerHTML = data.contactText;
+            const listHtml = data.targets.map(t => `<li>${t}</li>`).join("");
+            document.getElementById('target-list').innerHTML = listHtml;
+        }
+
+        // フォームタブの更新
+        const formTitle = document.getElementById('form-title');
+        if (formTitle) {
+            formTitle.innerText = data.formTitle;
+            document.getElementById('form-text').innerText = data.formText;
+            document.getElementById('form-btn').innerText = data.formBtn;
+        }
+
+        // --- 2. ボタンの青色(active)切り替え処理を追加 ---
+        document.querySelectorAll('.lang-btns button').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        const activeBtn = document.getElementById(`btn-${lang}`);
+        if (activeBtn) activeBtn.classList.add('active');
+
+        localStorage.setItem('preferredLang', lang);
+    }
+
+    window.onload = () => {
+        const savedLang = localStorage.getItem('preferredLang') || 'ja';
+        changeLanguage(savedLang); // 保存された言語（なければ'ja'）を適用
+    };
+    </script>
+</body>
+</html>

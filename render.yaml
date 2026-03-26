@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: mhw-ta-leaderboard
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app

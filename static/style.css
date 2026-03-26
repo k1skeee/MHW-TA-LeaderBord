@@ -1,0 +1,377 @@
+/* =========================================
+   1. 基本設定 (Base)
+   ========================================= */
+body {
+    background-color: #d8dde2; /* 落ち着いたオフホワイト（最新の設定を優先） */
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    color: #333333;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    min-height: 90vh;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    font-size: 2em;
+    margin-bottom: 30px;
+}
+
+h2, h3 {
+    color: #444;
+}
+
+.section-divider {
+    border: 0;
+    border-top: 1px solid #eee;
+    margin: 30px 0;
+}
+
+/* =========================================
+   2. タブメニュー (Tabs)
+   ========================================= */
+.tabs {
+    display: flex;
+    justify-content: center;
+    border-bottom: 2px solid #ddd;
+    margin-bottom: 25px;
+    gap: 10px;
+}
+
+.tab-btn {
+    text-decoration: none;
+    padding: 12px 24px;
+    color: #555;
+    font-weight: bold;
+    font-size: 1.1em;
+    border-bottom: 3px solid transparent;
+    transition: 0.2s;
+}
+
+.tab-btn:hover {
+    color: #ff4b4b;
+}
+
+.tab-btn.active {
+    color: #ff4b4b;
+    border-bottom: 3px solid #ff4b4b;
+}
+
+/* タブコンテンツの表示制御 */
+.tab-content {
+    display: none;
+    margin-top: 80px; /* 水色の線の隙間 */
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* =========================================
+   3. クエストカード (Quest Cards)
+   ========================================= */
+.quest-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.quest-card {
+    display: flex;
+    align-items: center;
+    background-color: #ffffff;
+    padding: 25px; /* 最新の広い設定 */
+    border-radius: 12px;
+    border: none;
+    text-decoration: none;
+    color: #333;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); /* 最新の影設定 */
+    margin-bottom: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* ホバー時の動き */
+.quest-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(33, 33, 34, 0.5);
+}
+
+/* 選択中 */
+.quest-card.selected {
+    border: 2px solid #24fd36;
+    background: #f4fff5;
+}
+
+.monster-icon {
+    width: 65px;
+    height: 65px;
+    object-fit: contain;
+    margin-right: 15px;
+    flex-shrink: 0;
+}
+
+.quest-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.quest-name {
+    font-size: 0.8em;
+    color: #0056b3;
+}
+
+.quest-target {
+    font-weight: bold;
+    font-size: 1em;
+}
+
+/* =========================================
+   4. ランキング表示エリア (Ranking)
+   ========================================= */
+.ranking-header-card {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.ranking-monster-icon {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+}
+
+.quest-text-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.ranking-monster-name {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    margin-top: 10px;
+}
+
+.ranking-quest-name {
+    font-size: 14px;
+    color: #0056b3;
+}
+
+/* ソートプルダウン */
+.sorting-controls {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.blue-dropdown {
+    background-color: #0b5ed7;
+    color: white;
+    border: none;
+    padding: 10px 30px 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='white' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+.blue-dropdown:hover {
+    background-color: #0a58ca;
+}
+
+/* =========================================
+   5. テーブル (Table)
+   ========================================= */
+.ta-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: rgb(255, 255, 255);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+}
+
+.ta-table th {
+    background: #f1f3f5;
+    color: #333;
+    padding: 15px;
+    text-align: left;
+    font-size: 14px;
+}
+
+.ta-table td {
+    padding: 15px;
+    border-bottom: 1px solid #f1f1f1;
+    font-size: 14px;
+}
+
+/* 行のホバー */
+table tbody tr {
+    transition: background-color 0.2s ease;
+    cursor: default;
+}
+
+table tbody tr:hover {
+    background-color: #e7f1fa;
+}
+
+/* セル詳細 */
+.time-cell {
+    color: #0056b3;
+    font-weight: bold;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.table-weapon-icon {
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+    vertical-align: middle;
+}
+
+.rule-badge {
+    background: #e9ecef;
+    color: #495057;
+    padding: 3px 10px;
+    border-radius: 15px;
+    font-size: 0.8em;
+}
+
+.rule-badge.ta-wiki {
+    background: #343a40;
+    color: white;
+}
+
+.url-cell a {
+    color: #0d6efd;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.url-cell a:hover {
+    text-decoration: underline;
+}
+
+/* =========================================
+   6. 概要・ルール・フォーム (Info/Form)
+   ========================================= */
+.info-box {
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    margin-bottom: 60px;
+}
+
+.info-box p {
+    margin-bottom: 30px;
+    line-height: 1.9;
+}
+
+.note {
+    color: #888;
+    font-size: 0.9em;
+}
+
+.spacer {
+    height: 40px;
+}
+
+/* 箇条書き */
+.quest-list {
+    list-style: none;
+    padding-left: 10px;
+    margin-top: 15px;
+}
+
+.quest-list li {
+    position: relative;
+    padding-left: 20px;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.quest-list li::before {
+    content: "・";
+    position: absolute;
+    left: 0;
+    color: #ff4b4b;
+}
+
+/* フォームボタン */
+.form-box {
+    text-align: center;
+}
+
+.blue-submit-btn {
+    display: inline-block;
+    background-color: #0b5ed7;
+    color: white;
+    padding: 12px 30px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+.no-records {
+    text-align: center;
+    color: #999;
+    padding: 40px 0;
+}
+
+.container {
+    /* 既存の設定はそのまま */
+    padding-top: 10px; /* これで中の要素（ボタンなど）をまとめて下に押し下げます */
+}
+
+.lang-btns {
+    text-align: right;
+    margin-bottom: 20px; /* ボタンとタイトルの間の距離 */
+}
+
+/* 言語切り替えボタン全体の配置設定 */
+.lang-btns {
+    display: flex;
+    justify-content: flex-end; /* 右寄せ */
+    gap: 10px;                 /* ボタン同士の間隔 */
+    margin-top: 10px;          /* これでボタンを少し下げます */
+    margin-bottom: 10px;
+}
+
+/* 通常のボタンのデザイン */
+.lang-btns button {
+    cursor: pointer;
+    padding: 6px 12px;
+    background-color: #f8f9fa; /* 薄いグレー */
+    border: 1px solid #ddd;
+    border-radius: 4px;        /* 少し角を丸く */
+    font-size: 14px;
+    transition: all 0.2s;      /* 変化を滑らかに */
+}
+
+/* 【重要】選択されている言語のボタンを青くする */
+.lang-btns button.active {
+    background-color: #007bff; /* 鮮やかな青 */
+    color: white;              /* 文字を白く */
+    border-color: #0056b3;     /* 枠線も濃い青に */
+    font-weight: bold;
+}
