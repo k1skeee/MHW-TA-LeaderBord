@@ -36,6 +36,7 @@
 <body>
     <div class="container">
         <div class="lang-btns">
+            <img src="{{ url_for('static', filename='言語.png') }}" width="33" height="33" style="vertical-align: middle; margin-right: 0px;">
             <button onclick="changeLanguage('ja')" id="btn-ja">JP</button>
             <button onclick="changeLanguage('en')" id="btn-en">EN</button>
             <button onclick="changeLanguage('zh')" id="btn-zh">CH</button>
@@ -152,7 +153,7 @@
             <div class="info-box" style="line-height: 1.8; padding: 20px;">
                 <h2 id="about-title" style="border-left: 5px solid #d9534f; padding-left: 15px; margin-bottom: 15px; font-weight: bold; font-size: 1.3em;">目的</h2>
                 <p id="about-text">
-                    本サイトは、MHW:IBで人気の5種クエストを対象としたタイム集計・アーカイブサイトです。<br>
+                    本サイトは、MHW:IBで人気のクエスト(5種)を対象としたタイム集計・アーカイブサイトです。<br>
                     走者の方々が、参考にしたい記録や関連する動画をスムーズに見つけられることを目的としています。
                 </p>
                 <div style="height: 30px;"></div>
@@ -218,7 +219,7 @@
     const translations = {
         ja: {
             navQuest: "⚔️ クエスト一覧", navAbout: "📖 概要・ルール", navForm: "📝 応募フォーム",
-            aboutTitle: "目的", aboutText: "本サイトは、MHW:IBで人気の5種クエストを対象としたタイム集計・アーカイブサイトです。<br>走者の方々が、参考にしたい記録や関連する動画をスムーズに見つけられることを目的としています。",
+            aboutTitle: "目的", aboutText: "本サイトは、MHW:IBで人気のクエスト（5種）を対象としたタイム集計・アーカイブサイトです。<br>走者の方々が、参考にしたい記録や関連する動画をスムーズに見つけられることを目的としています。",
             howTitle: "使い方", howText: "1. クエストを選択し、武器種・プラットフォーム・レギュレーションで絞り込みが可能です。<br><br>2. 各カテゴリー上位の記録を掲載しています（走者がいない場合は0件となります）。",
             noVideoTitle: "※No Videoについて", noVideoText: "投稿者本人の動画が確認できない記録です。転載サイト等で視聴可能ですが、本サイトでは原則として、本人アカウントから視聴可能な動画のみを掲載・更新対象としています。",
             applyTitle: "記録の集計・申請", applyText: "新記録や掲載漏れがある場合は、専用の応募フォームからご連絡ください。<br>管理人が内容を確認後、掲載させていただきます。",
@@ -283,7 +284,7 @@
                 "alatreon_ice": { name: "M⭐︎6 黎明死星", target: "煌黑龙" },
                 "milla": { name: "M⭐︎6 传说中的黑龙", target: "黑龙" },
                 "velkhana": { name: "M⭐︎6 雪花沉睡", target: "历战王冰呪龙" },
-                "rajang": { name: "M⭐︎6 你は黄金奖杯", target: "历战激昂金狮子" }
+                "rajang": { name: "M⭐︎6 你是黄金奖杯", target: "历战激昂金狮子" }
             },
             sortOptions: {
                 weapon: { All: "武器", GS: "大剑", LS: "太刀", DB: "双剑", SnS: "片手剑", GL: "铳枪", LC: "长枪", CB: "盾斧", SA: "斩斧", IG: "操虫棍", HM: "大锤", HH: "狩猎笛", LBG: "轻弩", HBG: "重弩", BOW: "弓" },
