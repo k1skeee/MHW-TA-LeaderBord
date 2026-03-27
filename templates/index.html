@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>MHW:I TA Leaderboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <style>
         /* 言語ボタン全体の配置調整 */
         .lang-btns {
             text-align: right;
-            padding-top: 20px;    /* これでカードの内側でボタンが下がります */
+            padding-top: 20px;
             padding-right: 10px;
             margin-bottom: 10px;
         }
@@ -19,8 +20,8 @@
             padding: 5px 12px;
             background-color: #fff;
             border: 1px solid #ccc;
-            border-radius: 4px;   /* 角を少し丸く */
-            transition: all 0.2s; /* 色の変化を滑らかに */
+            border-radius: 4px;
+            transition: all 0.2s;
             margin-left: 5px;
         }
 
@@ -30,6 +31,21 @@
             color: white;
             border-color: #0056b3;
             font-weight: bold;
+        }
+
+        /* タブ内のアイコンと文字の間に少し隙間を作る */
+        .tabs a i {
+            margin-right: 8px;
+        }
+
+        /* 応募フォームリンクのスタイル */
+        .form-link {
+            color: #007bff;
+            text-decoration: underline;
+            font-weight: bold;
+        }
+        .form-link:hover {
+            color: #0056b3;
         }
     </style>
 </head>
@@ -42,12 +58,12 @@
             <button onclick="changeLanguage('zh')" id="btn-zh">CH</button>
         </div>
 
-        <h1>🏆 MHW:I TA Leaderboard</h1>
+        <h1> MHW:IB Speedrun Board</h1>
 
         <div class="tabs">
-            <a href="{{ url_for('index', tab='quest', monster=selected_quest.id) }}" id="nav-quest" class="tab-btn {% if active_tab == 'quest' %}active{% endif %}">⚔️ クエスト一覧</a>
-            <a href="{{ url_for('index', tab='rule') }}" id="nav-about" class="tab-btn {% if active_tab == 'rule' %}active{% endif %}">📖 概要・ルール</a>
-            <a href="{{ url_for('index', tab='form') }}" id="nav-form" class="tab-btn {% if active_tab == 'form' %}active{% endif %}">📝 応募フォーム</a>
+            <a href="{{ url_for('index', tab='quest', monster=selected_quest.id) }}" id="nav-quest" class="tab-btn {% if active_tab == 'quest' %}active{% endif %}"></a>
+            <a href="{{ url_for('index', tab='rule') }}" id="nav-about" class="tab-btn {% if active_tab == 'rule' %}active{% endif %}"></a>
+            <a href="{{ url_for('index', tab='form') }}" id="nav-form" class="tab-btn {% if active_tab == 'form' %}active{% endif %}"></a>
         </div>
 
         {% if active_tab == 'quest' %}
@@ -96,6 +112,7 @@
 
                     <select class="blue-dropdown" onchange="location.href=updateURL('platform', this.value)">
                         <option value="All" class="opt-platform" data-key="All" {% if sel_platform == 'All' %}selected{% endif %}>Platform</option>
+                        <option value="All" class="opt-platform" data-key="SelectAll">ALL</option>
                         <option value="PC" class="opt-platform" data-key="PC" {% if sel_platform == 'PC' %}selected{% endif %}>PC</option>
                         <option value="CS" class="opt-platform" data-key="CS" {% if sel_platform == 'CS' %}selected{% endif %}>CS</option>
                     </select>
@@ -152,44 +169,28 @@
         <div class="tab-content active">
             <div class="info-box" style="line-height: 1.8; padding: 20px;">
                 <h2 id="about-title" style="border-left: 5px solid #d9534f; padding-left: 15px; margin-bottom: 15px; font-weight: bold; font-size: 1.3em;">目的</h2>
-                <p id="about-text">
-                    本サイトは、MHW:IBで人気のクエスト(5種)を対象としたタイム集計・アーカイブサイトです。<br>
-                    走者の方々が、参考にしたい記録や関連する動画をスムーズに見つけられることを目的としています。
-                </p>
+                <p id="about-text"></p>
+                
                 <div style="height: 30px;"></div>
                 <h2 id="how-title" style="border-left: 5px solid #d9534f; padding-left: 15px; margin-bottom: 15px; font-weight: bold; font-size: 1.3em;">使い方</h2>
-                <p id="how-text">
-                    1. クエストを選択し、武器種・プラットフォーム・レギュレーションで絞り込みが可能です。<br><br>
-                    2. 各カテゴリー上位の記録を掲載しています（走者がいない場合は0件となります）。
-                </p>
+                <p id="how-text"></p>
+                
                 <div style="background: #fdf2f2; padding: 15px; border-radius: 6px; border: 1px solid #f5c6cb; color: #721c24; font-size: 0.9em; margin-top: 10px;">
-                    <strong id="no-video-title">※No Videoについて</strong><br>
-                    <span id="no-video-text">投稿者本人の動画が確認できない記録です。転載サイト等で視聴可能ですが、本サイトでは原則として、本人アカウントから視聴可能な動画のみを掲載・更新対象としています。</span>
+                    <strong id="no-video-title"></strong><br>
+                    <span id="no-video-text"></span>
                 </div>
+                
                 <div style="height: 30px;"></div>
                 <h2 id="apply-title" style="border-left: 5px solid #d9534f; padding-left: 15px; margin-bottom: 15px; font-weight: bold; font-size: 1.3em;">記録の集計・申請</h2>
-                <p id="apply-text">
-                    新記録や掲載漏れがある場合は、専用の応募フォームからご連絡ください。<br>
-                    管理人が内容を確認後、掲載させていただきます。
-                </p>
+                <p id="apply-text"></p>
+                
                 <div style="height: 30px;"></div>
                 <h2 id="target-title" style="border-left: 5px solid #d9534f; padding-left: 15px; margin-bottom: 15px; font-weight: bold; font-size: 1.3em;">対象クエスト</h2>
-                <ul id="target-list" style="list-style: none; padding-left: 5px; line-height: 2;">
-                    <li> M⭐︎6 伝説の黒龍</li>
-                    <li> M⭐︎6 六花が静かに眠るなら</li>
-                    <li> M⭐︎6 君はゴールデントロフィー</li>
-                    <li> M⭐︎6 宵の恒星</li>
-                    <li> M⭐︎6 明けの死星</li>
-                </ul>
+                <ul id="target-list" style="list-style: none; padding-left: 5px; line-height: 2;"></ul>
+                
                 <div style="height: 30px;"></div>
                 <h2 id="contact-title" style="border-left: 5px solid #d9534f; padding-left: 15px; margin-bottom: 15px; font-weight: bold; font-size: 1.3em;">お問い合わせ</h2>
-                <p id="contact-text">
-                    誤情報の指摘やご要望は、DMまたはメールにて受け付けております。<br>
-                    <a href="https://x.com/MHW_Record" target="_blank" style="display: inline-flex; align-items: center; text-decoration: none; color: #007bff; margin-top: 5px;">
-                        <img src="{{ url_for('static', filename='X.png') }}" style="width: 18px; height: 18px; margin-right: 5px; vertical-align: middle;">
-                        @MHW_Record
-                    </a>
-                </p>
+                <p id="contact-text"></p>
             </div>
         </div>
         {% endif %}
@@ -197,9 +198,9 @@
         {% if active_tab == 'form' %}
         <div class="tab-content active">
             <div class="info-box form-box">
-                <h2 id="form-title">📝 応募フォーム</h2>
-                <p id="form-text">記録の申請は以下のボタンからGoogleフォームを開いて行ってください。</p>
-                <a href="https://forms.gle/mwFj4i3tmsuwBQew5" target="_blank" class="blue-submit-btn" id="form-btn">Google Formを開く</a>
+                <h2 id="form-title"> 応募フォーム</h2>
+                <p id="form-text"></p>
+                <a href="https://forms.gle/mwFj4i3tmsuwBQew5" target="_blank" class="blue-submit-btn" id="form-btn"></a>
             </div>
         </div>
         {% endif %}
@@ -216,17 +217,23 @@
                       '<img src="/static/X.png" style="width: 30px; height: 30px; margin-right: 7px; vertical-align: middle;">' + 
                       '@MHW_Record</a>';
 
+    // 共通のGoogleフォームURL
+    const googleFormUrl = "https://forms.gle/mwFj4i3tmsuwBQew5";
+
     const translations = {
         ja: {
-            navQuest: "⚔️ クエスト一覧", navAbout: "📖 概要・ルール", navForm: "📝 応募フォーム",
+            navQuest: '<i class="fa-solid fa-list-ul"></i>クエスト一覧', 
+            navAbout: '<i class="fa-solid fa-circle-info"></i>概要・ルール', 
+            navForm: '<i class="fa-solid fa-paper-plane"></i>応募フォーム',
             aboutTitle: "目的", aboutText: "本サイトは、MHW:IBで人気のクエスト（5種）を対象としたタイム集計・アーカイブサイトです。<br>走者の方々が、参考にしたい記録や関連する動画をスムーズに見つけられることを目的としています。",
             howTitle: "使い方", howText: "1. クエストを選択し、武器種・プラットフォーム・レギュレーションで絞り込みが可能です。<br><br>2. 各カテゴリー上位の記録を掲載しています（走者がいない場合は0件となります）。",
             noVideoTitle: "※No Videoについて", noVideoText: "投稿者本人の動画が確認できない記録です。転載サイト等で視聴可能ですが、本サイトでは原則として、本人アカウントから視聴可能な動画のみを掲載・更新対象としています。",
-            applyTitle: "記録の集計・申請", applyText: "新記録や掲載漏れがある場合は、専用の応募フォームからご連絡ください。<br>管理人が内容を確認後、掲載させていただきます。",
+            applyTitle: "記録の集計・申請", 
+            applyText: `新記録や掲載漏れがある場合は、専用の <a href="${googleFormUrl}" target="_blank" class="form-link">応募フォーム</a> からご連絡ください。<br>管理人が内容を確認後、掲載させていただきます。`,
             targetTitle: "対象クエスト", targets: [" M⭐︎6 伝説の黒龍", " M⭐︎6 六花が静かに眠るなら", " M⭐︎6 君はゴールデントロフィー", " M⭐︎6 宵の恒星", " M⭐︎6 明けの死星"],
             contactTitle: "お問い合わせ", 
             contactText: '誤情報の指摘やご要望は、DMまたはメールにて受け付けております。<br>' + xLinkHtml,
-            formTitle: "📝 応募フォーム",
+            formTitle: " 応募フォーム",
             formText: "記録の申請は以下のボタンからGoogleフォームを開いて行ってください。",
             formBtn: "Google Formを開く",
             questNames: {
@@ -237,21 +244,24 @@
                 "rajang": { name: "M⭐︎6 君はゴールデントロフィー", target: "歴戦 激昂したラージャン" }
             },
             sortOptions: {
-                weapon: { All: "武器", GS: "大剣", LS: "太刀", DB: "双剣", SnS: "片手剣", GL: "ガンランス", LC: "ランス", CB: "チャージアックス", SA: "スラッシュアックス", IG: "操虫棍", HM: "ハンマー", HH: "狩猟笛", LBG: "ライトボウガン", HBG: "ヘビィボウガン", BOW: "弓" },
-                platform: { All: "プラットフォーム", PC: "PC", CS: "CS" },
-                style: { All: "スタイル", Heroics: "火事場", "No Heroics": "非火事場", "TA wiki": "TA wiki" }
+                weapon: { All: "Weapon", GS: "大剣", LS: "太刀", DB: "双剣", SnS: "片手剣", GL: "ガンランス", LC: "ランス", CB: "チャージアックス", SA: "スラッシュアックス", IG: "操虫棍", HM: "ハンマー", HH: "狩猟笛", LBG: "ライトボウガン", HBG: "ヘビィボウガン", BOW: "弓" },
+                platform: { All: "Platform", SelectAll: "すべて", PC: "PC", CS: "CS" },
+                style: { All: "Style", Heroics: "火事場", "No Heroics": "非火事場", "TA wiki": "TA wiki" }
             }
         },
         en: {
-            navQuest: "⚔️ Quests", navAbout: "📖 About / Rules", navForm: "📝 Submissions",
+            navQuest: '<i class="fa-solid fa-list-ul"></i>Quests', 
+            navAbout: '<i class="fa-solid fa-circle-info"></i>About / Rules', 
+            navForm: '<i class="fa-solid fa-paper-plane"></i>Submissions',
             aboutTitle: "Mission", aboutText: "This site is a dedicated speedrun archive for 5 popular MHW:IB quests. Our primary goal is to provide a platform where runners can \"smoothly find and study\" top-tier records and gameplay strategies.",
             howTitle: "How to Use", howText: "1. Select a quest and filter by Weapon, Platform, or Category.<br><br>2. We list the top records for each category. (Displays 0 if no runs are registered.)",
             noVideoTitle: "Note on \"No Video\"", noVideoText: "These are records where the original video from the runner is unavailable. While some may be viewable on re-upload sites, this project officially lists and updates only videos hosted on the creator's own account.",
-            applyTitle: "Submissions", applyText: "If you have a new record or notice a missing run, please contact us via the Submission Form. The administrator will review the content before posting.",
+            applyTitle: "Submissions", 
+            applyText: `If you have a new record or notice a missing run, please contact us via the <a href="${googleFormUrl}" target="_blank" class="form-link">submission form</a>. The administrator will review the content before posting.`,
             targetTitle: "Featured Quests", targets: [" M⭐︎6 Fade to Black", " M⭐︎6 The Place Where Winter Sleeps", " M⭐︎6 Mew are Number One!", " M⭐︎6 The Evening Star", " M⭐︎6 Dawn of the Death Star"],
             contactTitle: "Contact", 
             contactText: "For reporting errors or suggestions, please reach out via DM or email.<br>" + xLinkHtml,
-            formTitle: "📝 Submission Form",
+            formTitle: " Submission Form",
             formText: "Please click the button below to open the Google Form and submit your record.",
             formBtn: "Open Google Form",
             questNames: {
@@ -263,20 +273,23 @@
             },
             sortOptions: {
                 weapon: { All: "Weapon", GS: "Great Sword", LS: "Long Sword", DB: "Dual Blades", SnS: "Sword & Shield", GL: "Gunlance", LC: "Lance", CB: "Charge Blade", SA: "Switch Axe", IG: "Insect Glaive", HM: "Hammer", HH: "Hunting Horn", LBG: "Light Bowgun", HBG: "Heavy Bowgun", BOW: "Bow" },
-                platform: { All: "Platform", PC: "PC", CS: "CS" },
+                platform: { All: "Platform", SelectAll: "ALL", PC: "PC", CS: "CS" },
                 style: { All: "Style", Heroics: "Heroics", "No Heroics": "No Heroics", "TA wiki": "TA wiki" }
             }
         },
         zh: {
-            navQuest: "⚔️ 任務列表", navAbout: "📖 概要・規則", navForm: "📝 投稿表單",
-            aboutTitle: "目的", aboutText: "本站為 MHW:IB 五種熱門任務的紀錄存檔站。旨在幫助玩家「快速查找並參考」優秀的狩獵影片與策略，共同提升狩獵技巧。",
+            navQuest: '<i class="fa-solid fa-list-ul"></i>任務列表', 
+            navAbout: '<i class="fa-solid fa-circle-info"></i>概要・規則', 
+            navForm: '<i class="fa-solid fa-paper-plane"></i>投稿表單',
+            aboutTitle: "目的", aboutText: "本站為 MHW:IB 五種熱門任務的紀錄存檔站。旨在幫助玩家「快速查找並参考」優秀的狩獵影片與策略，共同提升狩獵技巧。",
             howTitle: "使用方法", howText: "1. 選擇任務後，可按武器、平台或規則進行篩選。<br><br>2. 刊載各類別的前幾名紀錄（若該類別無人挑戰則顯示為0）。",
             noVideoTitle: "關於 \"No Video\"", noVideoText: "若原作者影片已刪除或無法確認，將標註為 No Video。雖然部分影片可能存在於轉載網站，但本站原則上僅刊載並更新由作者本人帳號公開的影片。",
-            applyTitle: "紀錄申請", applyText: "若有新紀錄 or 遺漏的紀錄，請透過專用的投稿表單與我們聯繫。管理員確認內容無誤後將予以刊載。",
+            applyTitle: "紀錄申請", 
+            applyText: `若有新紀錄 or 遺漏的紀錄，請透過專用的 <a href="${googleFormUrl}" target="_blank" class="form-link">投稿表單</a> 與我們聯繫。管理員確認內容無誤後將予以刊載。`,
             targetTitle: "對象任務", targets: [" M⭐︎6 传说中的黑龙", " M⭐︎6 雪花沉睡", " M⭐︎6 你是黄金奖杯", " M⭐︎6 暗夜恒星", " M⭐︎6 黎明死星"],
             contactTitle: "聯絡我們", 
             contactText: "若有誤報或任何建議，請透過 DM 或電子郵件與我們聯繫。<br>" + xLinkHtml,
-            formTitle: "📝 投稿表單",
+            formTitle: " 投稿表單",
             formText: "請點擊下方按鈕打開 Google 表單進行紀錄投稿。",
             formBtn: "打開 Google 表單",
             questNames: {
@@ -288,7 +301,7 @@
             },
             sortOptions: {
                 weapon: { All: "武器", GS: "大剑", LS: "太刀", DB: "双剑", SnS: "片手剑", GL: "铳枪", LC: "长枪", CB: "盾斧", SA: "斩斧", IG: "操虫棍", HM: "大锤", HH: "狩猎笛", LBG: "轻弩", HBG: "重弩", BOW: "弓" },
-                platform: { All: "平台", PC: "PC", CS: "CS" },
+                platform: { All: "平台", SelectAll: "全部", PC: "PC", CS: "CS" },
                 style: { All: "規則", Heroics: "火事场", "No Heroics": "无火", "TA wiki": "TA規則" }
             }
         }
@@ -298,10 +311,9 @@
         const data = translations[lang];
         if (!data) return;
 
-        // 翻訳処理
-        document.getElementById('nav-quest').innerText = data.navQuest;
-        document.getElementById('nav-about').innerText = data.navAbout;
-        document.getElementById('nav-form').innerText = data.navForm;
+        document.getElementById('nav-quest').innerHTML = data.navQuest;
+        document.getElementById('nav-about').innerHTML = data.navAbout;
+        document.getElementById('nav-form').innerHTML = data.navForm;
 
         if (data.questNames) {
             for (const [id, names] of Object.entries(data.questNames)) {
@@ -335,7 +347,7 @@
             });
         }
 
-        // About/Ruleページの更新
+        // --- 概要・ルールタブの反映 (innerHTMLを使用してリンクを有効化) ---
         const aboutTitle = document.getElementById('about-title');
         if (aboutTitle) {
             aboutTitle.innerText = data.aboutTitle;
@@ -345,6 +357,7 @@
             document.getElementById('no-video-title').innerText = data.noVideoTitle;
             document.getElementById('no-video-text').innerText = data.noVideoText;
             document.getElementById('apply-title').innerText = data.applyTitle;
+            // ここを .innerHTML に変更することでリンクが有効になります
             document.getElementById('apply-text').innerHTML = data.applyText;
             document.getElementById('target-title').innerText = data.targetTitle;
             document.getElementById('contact-title').innerText = data.contactTitle;
@@ -353,7 +366,6 @@
             document.getElementById('target-list').innerHTML = listHtml;
         }
 
-        // フォームタブの更新
         const formTitle = document.getElementById('form-title');
         if (formTitle) {
             formTitle.innerText = data.formTitle;
@@ -361,7 +373,6 @@
             document.getElementById('form-btn').innerText = data.formBtn;
         }
 
-        // --- 2. ボタンの青色(active)切り替え処理を追加 ---
         document.querySelectorAll('.lang-btns button').forEach(btn => {
             btn.classList.remove('active');
         });
@@ -372,8 +383,8 @@
     }
 
     window.onload = () => {
-        const savedLang = localStorage.getItem('preferredLang') || 'en';
-        changeLanguage(savedLang); // 保存された言語（なければ'ja'）を適用
+        const savedLang = localStorage.getItem('preferredLang') || 'ja';
+        changeLanguage(savedLang); 
     };
     </script>
 </body>
