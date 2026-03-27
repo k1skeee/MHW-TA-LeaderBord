@@ -295,7 +295,6 @@
     };
 
     function changeLanguage(lang) {
-        document.documentElement.lang = lang;
         const data = translations[lang];
         if (!data) return;
 
@@ -373,7 +372,7 @@
     }
 
     window.onload = () => {
-        const savedLang = localStorage.getItem('preferredLang') || 'ja';
+        const savedLang = localStorage.getItem('preferredLang') || 'en';
         changeLanguage(savedLang); // 保存された言語（なければ'ja'）を適用
     };
     </script>
