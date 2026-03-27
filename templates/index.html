@@ -273,7 +273,7 @@
             howTitle: "使用方法", howText: "1. 選擇任務後，可按武器、平台或規則進行篩選。<br><br>2. 刊載各類別的前幾名紀錄（若該類別無人挑戰則顯示為0）。",
             noVideoTitle: "關於 \"No Video\"", noVideoText: "若原作者影片已刪除或無法確認，將標註為 No Video。雖然部分影片可能存在於轉載網站，但本站原則上僅刊載並更新由作者本人帳號公開的影片。",
             applyTitle: "紀錄申請", applyText: "若有新紀錄 or 遺漏的紀錄，請透過專用的投稿表單與我們聯繫。管理員確認內容無誤後將予以刊載。",
-            targetTitle: "對象任務", targets: [" M⭐︎6 传说中的黑龙", " M⭐︎6 雪花沉睡", " M⭐︎6 你は黄金奖杯", " M⭐︎6 暗夜恒星", " M⭐︎6 黎明死星"],
+            targetTitle: "對象任務", targets: [" M⭐︎6 传说中的黑龙", " M⭐︎6 雪花沉睡", " M⭐︎6 你是黄金奖杯", " M⭐︎6 暗夜恒星", " M⭐︎6 黎明死星"],
             contactTitle: "聯絡我們", 
             contactText: "若有誤報或任何建議，請透過 DM 或電子郵件與我們聯繫。<br>" + xLinkHtml,
             formTitle: "📝 投稿表單",
@@ -295,6 +295,7 @@
     };
 
     function changeLanguage(lang) {
+        document.documentElement.lang = lang;
         const data = translations[lang];
         if (!data) return;
 

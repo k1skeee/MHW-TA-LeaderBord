@@ -375,23 +375,24 @@ table tbody tr:hover {
     border-color: #0056b3;     /* 枠線も濃い青に */
     font-weight: bold;
 }
-
-/* スマホ（画面幅600px以下）の時の調整 */
+/* スマホサイズかつ日本語の時だけ、文字を小さくして1行に収める */
 @media (max-width: 600px) {
-    .quest-name {
-        font-size: 10px !important; /* クエスト名をかなり小さく */
+    html[lang="ja"] .quest-name,
+    html[lang="ja"] .quest-target {
         white-space: nowrap !important; /* 絶対に改行させない */
-        overflow: hidden;
-        text-overflow: ellipsis; /* もし超えたら「...」にする保険 */
+        font-size: 9px !important;      /* 1行に収まるまで小さくする */
+        letter-spacing: -0.5px;         /* 文字の間隔を詰めて横幅を稼ぐ */
     }
-    .quest-target {
-        font-size: 13px !important; /* モンスター名を少し小さく */
-        white-space: nowrap !important; /* 絶対に改行させない */
-        overflow: hidden;
-        text-overflow: ellipsis;
+
+    /* アイコンを小さくして、右側のテキストスペースを広げる */
+    html[lang="ja"] .monster-icon {
+        width: 40px !important;
+        height: 40px !important;
+        margin-right: 8px !important;
     }
-    .quest-info {
-        padding-left: 5px; /* アイコンとの隙間を少し詰める */
-        min-width: 0;      /* 横幅を柔軟にする設定 */
+
+    /* カード内の余白を削る */
+    html[lang="ja"] .quest-card {
+        padding: 10px !important;
     }
 }
