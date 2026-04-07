@@ -375,24 +375,3 @@ table tbody tr:hover {
     border-color: #0056b3;     /* 枠線も濃い青に */
     font-weight: bold;
 }
-/* スマホサイズかつ日本語の時だけ、文字を小さくして1行に収める */
-@media (max-width: 600px) {
-    html[lang="ja"] .quest-name,
-    html[lang="ja"] .quest-target {
-        white-space: nowrap !important; /* 絶対に改行させない */
-        font-size: 9px !important;      /* 1行に収まるまで小さくする */
-        letter-spacing: -0.5px;         /* 文字の間隔を詰めて横幅を稼ぐ */
-    }
-
-    /* アイコンを小さくして、右側のテキストスペースを広げる */
-    html[lang="ja"] .monster-icon {
-        width: 40px !important;
-        height: 40px !important;
-        margin-right: 8px !important;
-    }
-
-    /* カード内の余白を削る */
-    html[lang="ja"] .quest-card {
-        padding: 10px !important;
-    }
-}

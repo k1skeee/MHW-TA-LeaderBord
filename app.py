@@ -12,7 +12,8 @@ quests = [
     {'id': 'velkhana', 'name': 'M6★ The Place Where Winter Sleeps', 'target': 'AT Velkhana', 'display_name': 'AT Velkhana', 'icon': '歴戦王イヴェルカーナ.PNG'},
     {'id': 'rajang', 'name': 'M6★ Mew are Number One!', 'target': 'Furious Rajang', 'display_name': 'Furious Rajang', 'icon': '激昂したラージャン.PNG'},
     {'id': 'alatreon_fire', 'name': 'M6★ The Evening Star', 'target': '宵Alatreon', 'display_name': 'Alatreon', 'icon': 'アルバトリオン.PNG'},
-    {'id': 'alatreon_ice', 'name': 'M6★ Dawn of The Death Star', 'target': '明Alatreon', 'display_name': 'Alatreon', 'icon': 'アルバトリオン.PNG'}
+    {'id': 'alatreon_ice', 'name': 'M6★ Dawn of The Death Star', 'target': '明Alatreon', 'display_name': 'Alatreon', 'icon': 'アルバトリオン.PNG'},
+    {'id': 'negi', 'name': 'M6★ Ode to the Destruction', 'target': 'Nergigante', 'display_name': 'Ruiner Nergigante', 'icon': 'ネルギガンテ.PNG'},
 ]
 
 def get_records_from_sheet():
