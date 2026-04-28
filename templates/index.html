@@ -168,28 +168,32 @@
         {% if active_tab == 'rule' %}
         <div class="tab-content active">
             <div class="info-box" style="line-height: 1.8; padding: 20px;">
-                <h2 id="about-title" style="border-left: 5px solid #d9534f; padding-left: 15px; margin-bottom: 15px; font-weight: bold; font-size: 1.3em;">目的</h2>
-                <p id="about-text"></p>
+                <h2 id="about-title" style="border-left: 5px solid #d9534f; padding-left: 15px; margin-bottom: 15px; font-weight: bold; font-size: 1.3em;"></h2>
+                <div id="about-text"></div>
                 
                 <div style="height: 30px;"></div>
-                <h2 id="how-title" style="border-left: 5px solid #d9534f; padding-left: 15px; margin-bottom: 15px; font-weight: bold; font-size: 1.3em;">使い方</h2>
+                <h2 id="how-title" style="border-left: 5px solid #d9534f; padding-left: 15px; margin-bottom: 15px; font-weight: bold; font-size: 1.3em;"></h2>
                 <div id="how-text"></div>
-                
-                <div style="background: #fdf2f2; padding: 15px; border-radius: 6px; border: 1px solid #f5c6cb; color: #721c24; font-size: 0.9em; margin-top: 10px;">
+
+                <div style="background: #fdf2f2; padding: 15px; border-radius: 6px; border: 1px solid #f5c6cb; color: #721c24; font-size: 0.9em; margin-top: 15px;">
                     <strong id="no-video-title"></strong><br>
                     <span id="no-video-text"></span>
                 </div>
+
+                <div style="height: 30px;"></div>
+                <h2 id="pc-policy-title" style="border-left: 5px solid #d9534f; padding-left: 15px; margin-bottom: 15px; font-weight: bold; font-size: 1.3em;"></h2>
+                <div id="pc-policy-text"></div>
                 
                 <div style="height: 30px;"></div>
-                <h2 id="apply-title" style="border-left: 5px solid #d9534f; padding-left: 15px; margin-bottom: 15px; font-weight: bold; font-size: 1.3em;">記録の集計・申請</h2>
+                <h2 id="apply-title" style="border-left: 5px solid #d9534f; padding-left: 15px; margin-bottom: 15px; font-weight: bold; font-size: 1.3em;"></h2>
                 <p id="apply-text"></p>
                 
                 <div style="height: 30px;"></div>
-                <h2 id="target-title" style="border-left: 5px solid #d9534f; padding-left: 15px; margin-bottom: 15px; font-weight: bold; font-size: 1.3em;">対象クエスト</h2>
+                <h2 id="target-title" style="border-left: 5px solid #d9534f; padding-left: 15px; margin-bottom: 15px; font-weight: bold; font-size: 1.3em;"></h2>
                 <ul id="target-list" style="list-style: none; padding-left: 5px; line-height: 2;"></ul>
                 
                 <div style="height: 30px;"></div>
-                <h2 id="contact-title" style="border-left: 5px solid #d9534f; padding-left: 15px; margin-bottom: 15px; font-weight: bold; font-size: 1.3em;">お問い合わせ</h2>
+                <h2 id="contact-title" style="border-left: 5px solid #d9534f; padding-left: 15px; margin-bottom: 15px; font-weight: bold; font-size: 1.3em;"></h2>
                 <p id="contact-text"></p>
             </div>
         </div>
@@ -198,7 +202,7 @@
         {% if active_tab == 'form' %}
         <div class="tab-content active">
             <div class="info-box form-box">
-                <h2 id="form-title"> 応募フォーム</h2>
+                <h2 id="form-title"></h2>
                 <p id="form-text"></p>
                 <a href="https://forms.gle/mwFj4i3tmsuwBQew5" target="_blank" class="blue-submit-btn" id="form-btn"></a>
             </div>
@@ -217,7 +221,6 @@
                       '<img src="/static/X.png" style="width: 30px; height: 30px; margin-right: 7px; vertical-align: middle;">' + 
                       '@MHW_Record</a>';
 
-    // 共通のGoogleフォームURL
     const googleFormUrl = "https://forms.gle/mwFj4i3tmsuwBQew5";
 
     const translations = {
@@ -225,9 +228,13 @@
             navQuest: '<i class="fa-solid fa-list-ul"></i>クエスト一覧', 
             navAbout: '<i class="fa-solid fa-circle-info"></i>概要・ルール', 
             navForm: '<i class="fa-solid fa-paper-plane"></i>応募フォーム',
-            aboutTitle: "目的", aboutText: "本サイトは、MHW:IBで人気のクエスト（6種）を対象としたタイム集計・アーカイブサイトです。<br>走者の方々が、参考にしたい記録や関連する動画をスムーズに見つけられることを目的としています。",
-            howTitle: "使い方", howText: "1. クエストを選択し、武器種・プラットフォーム・レギュレーションで絞り込みが可能です。<br><br>2. 各カテゴリーにつき上位3つまで記録を掲載しています。<br>・同一走者の記録は、各条件で1番速いタイムを掲載します。<br><br>※走者が少なく著しくタイム差があるものに関しては、上位タイムのみに絞っている場合があります。",
+            aboutTitle: "目的", 
+            aboutText: "本サイトは、MHW:IBで人気のクエスト（6種）を対象としたタイム集計・アーカイブサイトです。<br>走者の方々が、参考にしたい記録や関連する動画をスムーズに見つけられることを目的としています。<br><br><span style='color: #721c24; font-weight: bold;'>※本サイトは順位付けを目的としたサイトではございません</span>",
+            howTitle: "使い方", 
+            howText: "1. クエストを選択し、武器種・プラットフォーム・レギュレーションで絞り込みが可能です。<br><br>2. 各カテゴリーにつき上位3つまで記録を掲載しています。<br>・同一走者の記録は、各条件で1番速いタイムを掲載します。<br><br>※走者が少なく著しくタイム差があるものに関しては、上位タイムのみに絞っている場合があります。",
             noVideoTitle: "※No Videoについて", noVideoText: "投稿者本人の動画が確認できない記録です。転載サイト等で視聴可能ですが、本サイトでは原則として、本人アカウントから視聴可能な動画のみを掲載・更新対象としています。",
+            pcPolicyTitle: "PC版の扱いについて",
+            pcPolicyText: "本サイトでは、走者の方々の環境に合わせてプラットフォーム別に分類を行っておりますが、PC版（Steam版等）については以下の扱いとさせて頂きます。<br><br>1.プラットフォームの性質上、描画最適化やランダム要素を固定する各種MODの導入が可能な環境であることを前提としています。<br><br>2.Fexty’s Modを始めとした一部の挙動を変更するMODを使用した「Modified Run」の動画も掲載してあります。<br><br><br>免責事項: 立ち回りの参考等、各々の目的に合わせてご視聴者様自身の判断でご活用ください。",
             applyTitle: "記録の集計・申請", 
             applyText: `新記録や掲載漏れがある場合は、専用の <a href="${googleFormUrl}" target="_blank" class="form-link">応募フォーム</a> からご連絡ください。<br>管理人が内容を確認後、掲載させていただきます。`,
             targetTitle: "対象クエスト", targets: [" M⭐︎6 伝説の黒龍", " M⭐︎6 六花が静かに眠るなら", " M⭐︎6 君はゴールデントロフィー", " M⭐︎6 宵の恒星", " M⭐︎6 明けの死星", " M⭐︎6 殲滅の主はまた鐘を鳴らす"],
@@ -254,8 +261,12 @@
             navQuest: '<i class="fa-solid fa-list-ul"></i>Quests', 
             navAbout: '<i class="fa-solid fa-circle-info"></i>About / Rules', 
             navForm: '<i class="fa-solid fa-paper-plane"></i>Submissions',
-            aboutTitle: "Mission", aboutText: "This site is a dedicated speedrun archive for 6 popular MHW:IB quests. Our primary goal is to provide a platform where runners can \"smoothly find and study\" top-tier records and gameplay strategies.",
-            howTitle: "How to Use", howText: "1. Select a quest and filter by Weapon, Platform, or Category.<br><br>2. We list the top 3 records for each category.<br>・Only the best time per runner is listed for each category.<br><br>*For categories with few runners and significant time gaps, we may only display the top-tier records.",
+            aboutTitle: "Mission", 
+            aboutText: "This site is a dedicated speedrun archive for 6 popular MHW:IB quests. Our primary goal is to provide a platform where runners can \"smoothly find and study\" top-tier records and gameplay strategies.<br><br><span style='color: #721c24; font-weight: bold;'>※This site is NOT intended for official ranking or competitive purposes.</span>",
+            howTitle: "How to Use", 
+            howText: "1. Select a quest and filter by Weapon, Platform, or Category.<br><br>2. We list the top 3 records for each category.<br>・Only the best time per runner is listed for each category.<br><br>※For categories with few runners and significant time gaps, we may only display the top-tier records.",
+            pcPolicyTitle: "Handling of PC Version",
+            pcPolicyText: "While records are categorized by platform, the PC version (Steam, etc.) is defined as follows:<br><br>1.It is assumed to be an environment where various MODs (graphical optimization, RNG fixing, etc.) can be introduced.<br><br>2.Videos using MODs that change behavior, such as Fexty's Mod (Modified Runs), are also listed for reference.<br><br><br>Disclaimer: Please use the videos for your own tactical study at your own discretion.",
             noVideoTitle: "Note on \"No Video\"", noVideoText: "These are records where the original video from the runner is unavailable. While some may be viewable on re-upload sites, this project officially lists and updates only videos hosted on the creator's own account.",
             applyTitle: "Submissions", 
             applyText: `If you have a new record or notice a missing run, please contact us via the <a href="${googleFormUrl}" target="_blank" class="form-link">submission form</a>. The administrator will review the content before posting.`,
@@ -272,7 +283,6 @@
                 "velkhana": { name: "M⭐︎6 The Place Where Winter Sleeps", target: "AT Velkhana" },
                 "rajang": { name: "M⭐︎6 Mew are Number One!", target: "Furious Rajang" },
                 "negi": { name: "M⭐︎6 Ode to the Destruction", target: "Ruiner Nergigante" }
-
             },
             sortOptions: {
                 weapon: { All: "Weapon", GS: "Great Sword", LS: "Long Sword", DB: "Dual Blades", SnS: "Sword & Shield", GL: "Gunlance", LC: "Lance", CB: "Charge Blade", SA: "Switch Axe", IG: "Insect Glaive", HM: "Hammer", HH: "Hunting Horn", LBG: "Light Bowgun", HBG: "Heavy Bowgun", BOW: "Bow" },
@@ -284,8 +294,12 @@
             navQuest: '<i class="fa-solid fa-list-ul"></i>任務列表', 
             navAbout: '<i class="fa-solid fa-circle-info"></i>概要・規則', 
             navForm: '<i class="fa-solid fa-paper-plane"></i>投稿表單',
-            aboutTitle: "目的", aboutText: "本站為 MHW:IB 六種熱門任務的紀錄存檔站。旨在幫助玩家「快速查找並参考」優秀的狩獵影片與策略，共同提升狩獵技巧。",
-            howTitle: "使用方法", howText: "1. 選擇任務後，可按武器、平台或規則進行篩選。<br><br>2. 刊載各類別的前 3 名紀錄。<br>・同一位玩家在相同條件下僅刊載其最快的一項紀錄。<br><br>※若挑戰者較少且成績差距過大，可能僅顯示排名最前的紀錄。",
+            aboutTitle: "目的", 
+            aboutText: "本站為 MHW:IB 六種熱門任務的紀錄存檔站。旨在幫助玩家「快速查找並参考」優秀的狩獵影片與策略，共同提升狩獵技巧。<br><br><span style='color: #721c24; font-weight: bold;'>※本站並非以正式排名或競賽為主要目的</span>",
+            howTitle: "使用方法", 
+            howText: "1. 選擇任務後，可按武器、平台或規則進行篩選。<br><br>2. 刊載各類別的前 3 名紀錄。<br>・同一位玩家在相同條件下僅刊載其最快的一項紀錄。<br><br>※若挑戰者較少且成績差距過大，可能僅顯示排名最前的紀錄。",
+            pcPolicyTitle: "關於 PC 版的處理",
+            pcPolicyText: "雖然紀錄按平台分類，但對 PC 版（Steam 版等）的定義如下：<br><br>1.前提是該環境允許導入各種 MOD（優化、固定隨機要素等）。<br><br>2.我們也收錄了使用改變行為的 MOD（如 Fexty's Mod）的「Modified Run」影片作為參考。<br><br><br>免責聲明：請根據您的目的，自行判斷並使用影片內容進行學習。",
             noVideoTitle: "關於 \"No Video\"", noVideoText: "若原作者影片已刪除或無法確認，將標註為 No Video。雖然部分影片可能存在於轉載網站，但本站原則上僅刊載並更新由作者本人帳號公開的影片。",
             applyTitle: "紀錄申請", 
             applyText: `若有新紀錄 or 遺漏的紀錄，請透過專用的 <a href="${googleFormUrl}" target="_blank" class="投稿表單">投稿表單</a> 與我們聯繫。管理員確認內容無誤後將予以刊載。`,
@@ -358,6 +372,10 @@
             document.getElementById('about-text').innerHTML = data.aboutText;
             document.getElementById('how-title').innerText = data.howTitle;
             document.getElementById('how-text').innerHTML = data.howText;
+            
+            document.getElementById('pc-policy-title').innerText = data.pcPolicyTitle;
+            document.getElementById('pc-policy-text').innerHTML = data.pcPolicyText;
+
             document.getElementById('no-video-title').innerText = data.noVideoTitle;
             document.getElementById('no-video-text').innerText = data.noVideoText;
             document.getElementById('apply-title').innerText = data.applyTitle;
