@@ -47,9 +47,58 @@
         .form-link:hover {
             color: #0056b3;
         }
+
+        /* ログイン画面のスタイル */
+        .login-container {
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 40px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .login-container input {
+            width: 100%;
+            padding: 10px;
+            margin: 15px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .error-msg {
+            color: #d9534f;
+            margin-bottom: 15px;
+            font-size: 0.9em;
+        }
     </style>
 </head>
 <body>
+
+    {% if show_login %}
+    <!-- ==========================================
+         【ログイン画面】
+         未ログイン時はこのブロックだけが表示されます
+    =========================================== -->
+    <div class="login-container">
+        <h1>Admin Access</h1>
+        <p>パスワードを入力してください</p>
+        
+        {% if error %}
+            <p class="error-msg">{{ error }}</p>
+        {% endif %}
+
+        <form action="{{ url_for('login') }}" method="post">
+            <input type="password" name="password" placeholder="Password" required autofocus>
+            <button type="submit" class="blue-submit-btn" style="width: 100%;">Enter</button>
+        </form>
+    </div>
+
+    {% else %}
+    <!-- ==========================================
+         【メインコンテンツ】
+         ログイン済みの場合に表示されます
+    =========================================== -->
     <div class="container">
         <div class="lang-btns">
             <img src="{{ url_for('static', filename='言語.png') }}" width="33" height="33" style="vertical-align: middle; margin-right: 0px;">
@@ -209,6 +258,7 @@
         </div>
         {% endif %}
     </div>
+    {% endif %}
 
     <script>
     function updateURL(key, value) {
@@ -234,7 +284,7 @@
             howText: "1. クエストを選択し、武器種・プラットフォーム・レギュレーションで絞り込みが可能です。<br><br>2. 各カテゴリーにつき上位3つまで記録を掲載しています。<br>・同一走者の記録は、各条件で1番速いタイムを掲載します。<br><br>※走者が少なく著しくタイム差があるものに関しては、上位タイムのみに絞っている場合があります。",
             noVideoTitle: "※No Videoについて", noVideoText: "投稿者本人の動画が確認できない記録です。転載サイト等で視聴可能ですが、本サイトでは原則として、本人アカウントから視聴可能な動画のみを掲載・更新対象としています。",
             pcPolicyTitle: "PC版の扱いについて",
-            pcPolicyText: "本サイトでは、走者の方々の環境に合わせてプラットフォーム別に分類を行っておりますが、PC版（Steam版等）については以下の扱いとさせて頂きます。<br><br>1.プラットフォームの性質上、描画最適化やランダム要素を固定する各種MODの導入が可能な環境であることを前提としています。<br><br>2.Fexty’s Modを始めとした一部の挙動を変更するMODを使用した「Modified Run」の動画も掲載してあります。<br><br><br>免責事項: 立ち回りの参考等、各々の目的に合わせてご視聴者様自身の判断でご活用ください。",
+            pcPolicyText: "本サイトでは、走者の方々の環境に合わせてプラットフォーム別に分類を行っておりますが、PC版（Steam版等）については以下の扱いとさせて頂きます。<br><br>1.プラットフォームの性質上、描画最適化やランダム要素を固定する各種MODの導入が可能な環境であることを前提としています。<br><br><br>免責事項: 立ち回りの参考等、各々の目的に合わせてご視聴者様自身の判断でご活用ください。",
             applyTitle: "記録の集計・申請", 
             applyText: `新記録や掲載漏れがある場合は、専用の <a href="${googleFormUrl}" target="_blank" class="form-link">応募フォーム</a> からご連絡ください。<br>管理人が内容を確認後、掲載させていただきます。`,
             targetTitle: "対象クエスト", targets: [" M⭐︎6 伝説の黒龍", " M⭐︎6 六花が静かに眠るなら", " M⭐︎6 君はゴールデントロフィー", " M⭐︎6 宵の恒星", " M⭐︎6 明けの死星", " M⭐︎6 殲滅の主はまた鐘を鳴らす"],
@@ -266,7 +316,7 @@
             howTitle: "How to Use", 
             howText: "1. Select a quest and filter by Weapon, Platform, or Category.<br><br>2. We list the top 3 records for each category.<br>・Only the best time per runner is listed for each category.<br><br>※For categories with few runners and significant time gaps, we may only display the top-tier records.",
             pcPolicyTitle: "Handling of PC Version",
-            pcPolicyText: "While records are categorized by platform, the PC version (Steam, etc.) is defined as follows:<br><br>1.It is assumed to be an environment where various MODs (graphical optimization, RNG fixing, etc.) can be introduced.<br><br>2.Videos using MODs that change behavior, such as Fexty's Mod (Modified Runs), are also listed for reference.<br><br><br>Disclaimer: Please use the videos for your own tactical study at your own discretion.",
+            pcPolicyText: "While records are categorized by platform, the PC version (Steam, etc.) is defined as follows:<br><br>1.It is assumed to be an environment where various MODs (graphical optimization, RNG fixing, etc.) can be introduced.<br><br><br>Disclaimer: Please use the videos for your own tactical study at your own discretion.",
             noVideoTitle: "Note on \"No Video\"", noVideoText: "These are records where the original video from the runner is unavailable. While some may be viewable on re-upload sites, this project officially lists and updates only videos hosted on the creator's own account.",
             applyTitle: "Submissions", 
             applyText: `If you have a new record or notice a missing run, please contact us via the <a href="${googleFormUrl}" target="_blank" class="form-link">submission form</a>. The administrator will review the content before posting.`,
@@ -299,7 +349,7 @@
             howTitle: "使用方法", 
             howText: "1. 選擇任務後，可按武器、平台或規則進行篩選。<br><br>2. 刊載各類別的前 3 名紀錄。<br>・同一位玩家在相同條件下僅刊載其最快的一項紀錄。<br><br>※若挑戰者較少且成績差距過大，可能僅顯示排名最前的紀錄。",
             pcPolicyTitle: "關於 PC 版的處理",
-            pcPolicyText: "雖然紀錄按平台分類，但對 PC 版（Steam 版等）的定義如下：<br><br>1.前提是該環境允許導入各種 MOD（優化、固定隨機要素等）。<br><br>2.我們也收錄了使用改變行為的 MOD（如 Fexty's Mod）的「Modified Run」影片作為參考。<br><br><br>免責聲明：請根據您的目的，自行判斷並使用影片內容進行學習。",
+            pcPolicyText: "雖然紀錄按平台分類，但對 PC 版（Steam 版等）的定義如下：<br><br>1.前提是該環境允許導入各種 MOD（優化、固定隨機要素等）。<br><br><br>免責聲明：請根據您的目的，自行判斷並使用影片內容進行學習。",
             noVideoTitle: "關於 \"No Video\"", noVideoText: "若原作者影片已刪除或無法確認，將標註為 No Video。雖然部分影片可能存在於轉載網站，但本站原則上僅刊載並更新由作者本人帳號公開的影片。",
             applyTitle: "紀錄申請", 
             applyText: `若有新紀錄 or 遺漏的紀錄，請透過專用的 <a href="${googleFormUrl}" target="_blank" class="投稿表單">投稿表單</a> 與我們聯繫。管理員確認內容無誤後將予以刊載。`,
@@ -329,69 +379,73 @@
         const data = translations[lang];
         if (!data) return;
 
-        document.getElementById('nav-quest').innerHTML = data.navQuest;
-        document.getElementById('nav-about').innerHTML = data.navAbout;
-        document.getElementById('nav-form').innerHTML = data.navForm;
+        // 言語切り替えの要素が存在する場合のみ実行（ログイン画面ではスキップされる）
+        const navQuest = document.getElementById('nav-quest');
+        if (navQuest) {
+            navQuest.innerHTML = data.navQuest;
+            document.getElementById('nav-about').innerHTML = data.navAbout;
+            document.getElementById('nav-form').innerHTML = data.navForm;
 
-        if (data.questNames) {
-            for (const [id, names] of Object.entries(data.questNames)) {
-                const qNameEl = document.getElementById(`q-name-${id}`);
-                const qMNameEl = document.getElementById(`q-m-name-${id}`);
-                if (qNameEl) qNameEl.innerText = names.name;
-                if (qMNameEl) qMNameEl.innerText = names.target;
+            if (data.questNames) {
+                for (const [id, names] of Object.entries(data.questNames)) {
+                    const qNameEl = document.getElementById(`q-name-${id}`);
+                    const qMNameEl = document.getElementById(`q-m-name-${id}`);
+                    if (qNameEl) qNameEl.innerText = names.name;
+                    if (qMNameEl) qMNameEl.innerText = names.target;
+                }
             }
-        }
 
-        const currentQuestId = "{{ selected_quest.id }}";
-        if (data.questNames[currentQuestId]) {
-            const mNameEl = document.getElementById('current-monster-name');
-            const qNameEl = document.getElementById('current-quest-name');
-            if (mNameEl) mNameEl.innerText = data.questNames[currentQuestId].target;
-            if (qNameEl) qNameEl.innerText = data.questNames[currentQuestId].name;
-        }
+            const currentQuestId = "{{ selected_quest.id }}";
+            if (data.questNames[currentQuestId]) {
+                const mNameEl = document.getElementById('current-monster-name');
+                const qNameEl = document.getElementById('current-quest-name');
+                if (mNameEl) mNameEl.innerText = data.questNames[currentQuestId].target;
+                if (qNameEl) qNameEl.innerText = data.questNames[currentQuestId].name;
+            }
 
-        if (data.sortOptions) {
-            document.querySelectorAll('.opt-weapon').forEach(opt => {
-                const key = opt.getAttribute('data-key');
-                opt.innerText = data.sortOptions.weapon[key] || key;
-            });
-            document.querySelectorAll('.opt-platform').forEach(opt => {
-                const key = opt.getAttribute('data-key');
-                opt.innerText = data.sortOptions.platform[key] || key;
-            });
-            document.querySelectorAll('.opt-style').forEach(opt => {
-                const key = opt.getAttribute('data-key');
-                opt.innerText = data.sortOptions.style[key] || key;
-            });
-        }
+            if (data.sortOptions) {
+                document.querySelectorAll('.opt-weapon').forEach(opt => {
+                    const key = opt.getAttribute('data-key');
+                    opt.innerText = data.sortOptions.weapon[key] || key;
+                });
+                document.querySelectorAll('.opt-platform').forEach(opt => {
+                    const key = opt.getAttribute('data-key');
+                    opt.innerText = data.sortOptions.platform[key] || key;
+                });
+                document.querySelectorAll('.opt-style').forEach(opt => {
+                    const key = opt.getAttribute('data-key');
+                    opt.innerText = data.sortOptions.style[key] || key;
+                });
+            }
 
-        // --- 概要・ルールタブの反映 ---
-        const aboutTitle = document.getElementById('about-title');
-        if (aboutTitle) {
-            aboutTitle.innerText = data.aboutTitle;
-            document.getElementById('about-text').innerHTML = data.aboutText;
-            document.getElementById('how-title').innerText = data.howTitle;
-            document.getElementById('how-text').innerHTML = data.howText;
-            
-            document.getElementById('pc-policy-title').innerText = data.pcPolicyTitle;
-            document.getElementById('pc-policy-text').innerHTML = data.pcPolicyText;
+            // --- 概要・ルールタブの反映 ---
+            const aboutTitle = document.getElementById('about-title');
+            if (aboutTitle) {
+                aboutTitle.innerText = data.aboutTitle;
+                document.getElementById('about-text').innerHTML = data.aboutText;
+                document.getElementById('how-title').innerText = data.howTitle;
+                document.getElementById('how-text').innerHTML = data.howText;
+                
+                document.getElementById('pc-policy-title').innerText = data.pcPolicyTitle;
+                document.getElementById('pc-policy-text').innerHTML = data.pcPolicyText;
 
-            document.getElementById('no-video-title').innerText = data.noVideoTitle;
-            document.getElementById('no-video-text').innerText = data.noVideoText;
-            document.getElementById('apply-title').innerText = data.applyTitle;
-            document.getElementById('apply-text').innerHTML = data.applyText;
-            document.getElementById('target-title').innerText = data.targetTitle;
-            document.getElementById('contact-title').innerText = data.contactTitle;
-            document.getElementById('contact-text').innerHTML = data.contactText;
-            const listHtml = data.targets.map(t => `<li>${t}</li>`).join("");
-            document.getElementById('target-list').innerHTML = listHtml;
-        }
+                document.getElementById('no-video-title').innerText = data.noVideoTitle;
+                document.getElementById('no-video-text').innerText = data.noVideoText;
+                document.getElementById('apply-title').innerText = data.applyTitle;
+                document.getElementById('apply-text').innerHTML = data.applyText;
+                document.getElementById('target-title').innerText = data.targetTitle;
+                document.getElementById('contact-title').innerText = data.contactTitle;
+                document.getElementById('contact-text').innerHTML = data.contactText;
+                const listHtml = data.targets.map(t => `<li>${t}</li>`).join("");
+                document.getElementById('target-list').innerHTML = listHtml;
+            }
 
-        const formTitle = document.getElementById('form-title');
-        if (formTitle) {
-            formTitle.innerText = data.formTitle;
-            document.getElementById('form-text').innerText = data.formText;
-            document.getElementById('form-btn').innerText = data.formBtn;
+            const formTitle = document.getElementById('form-title');
+            if (formTitle) {
+                formTitle.innerText = data.formTitle;
+                document.getElementById('form-text').innerText = data.formText;
+                document.getElementById('form-btn').innerText = data.formBtn;
+            }
         }
 
         document.querySelectorAll('.lang-btns button').forEach(btn => {

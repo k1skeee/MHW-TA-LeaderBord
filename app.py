@@ -1,7 +1,13 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, session, redirect, url_for
 import pandas as pd
 
 app = Flask(__name__)
+
+# --- セキュリティ設定 ---
+# セッションの暗号化キーです。
+app.secret_key = 'mhw_ta_leaderboard_secret_key_2026'
+# 管理用パスワード
+ADMIN_PASSWORD = "2580"
 
 # スプレッドシートのCSV URL
 CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRcMMQrQ8HJdyuVQNl4h335dlBV7KDsKZJhAorHagNy-KIBbuH9X_UB7bgM26WVevVqw0tz0yZj3a9X/pub?gid=0&single=true&output=csv"
@@ -27,8 +33,44 @@ def get_records_from_sheet():
         print(f"スプレッドシート読み込みエラー: {e}")
         return []
 
+# ログイン処理用のルーティング
+@app.route('/login', methods=['POST'])
+def login():
+    if request.form.get('password') == ADMIN_PASSWORD:
+        session['logged_in'] = True
+        session.permanent = True  # ブラウザを閉じても一定期間ログインを維持
+        return redirect(url_for('index'))
+    else:
+        # 【修正箇所】パスワードが違う場合も、HTMLが必要とする変数をすべて渡してエラーを防ぐ
+        return render_template(
+            'index.html', 
+            show_login=True, 
+            error="Invalid Password",
+            quests=quests,
+            selected_quest=quests[0],
+            active_tab='quest'
+        )
+
+# ログアウト処理用のルーティング
+@app.route('/logout')
+def logout():
+    session.pop('logged_in', None)
+    return redirect(url_for('index'))
+
 @app.route('/')
 def index():
+    # --- 認証チェック ---
+    if not session.get('logged_in'):
+        # 未ログイン時でも、画面描画（JSの初期化等）に必要な変数をすべて渡す
+        return render_template(
+            'index.html', 
+            show_login=True, 
+            quests=quests, 
+            selected_quest=quests[0], # デフォルトのクエストを渡しておく
+            active_tab='quest'        # デフォルトのタブを指定しておく
+        )
+
+    # --- 以下、ログイン済みの場合のみ実行される既存ロジック ---
     all_records = get_records_from_sheet()
     
     # URLパラメータの取得（タブ切り替えや検索条件）
@@ -65,6 +107,7 @@ def index():
     filtered.sort(key=lambda x: str(x.get('time', '99:59:59')))
 
     return render_template('index.html', 
+                           show_login=False,
                            quests=quests, 
                            selected_quest=selected_quest, 
                            records=filtered,
