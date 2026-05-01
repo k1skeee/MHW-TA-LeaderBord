@@ -7,7 +7,7 @@ app = Flask(__name__)
 # セッションの暗号化キー
 app.secret_key = 'mhw_ta_leaderboard_secret_key_2026'
 # 管理用パスワード
-ADMIN_PASSWORD = "2026"
+ADMIN_PASSWORD = "2580"
 
 # スプレッドシートのCSV URL
 CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRcMMQrQ8HJdyuVQNl4h335dlBV7KDsKZJhAorHagNy-KIBbuH9X_UB7bgM26WVevVqw0tz0yZj3a9X/pub?gid=0&single=true&output=csv"
