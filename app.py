@@ -38,7 +38,7 @@ def get_records_from_sheet():
 def login():
     if request.form.get('password') == ADMIN_PASSWORD:
         session['logged_in'] = True
-        session.permanent = True  # ブラウザを閉じても一定期間ログインを維持
+        #session.permanent = True  # ブラウザを閉じても一定期間ログインを維持
         return redirect(url_for('index'))
     else:
         # 【修正箇所】パスワードが違う場合も、HTMLが必要とする変数をすべて渡してエラーを防ぐ
